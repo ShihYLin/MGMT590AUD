@@ -31,7 +31,7 @@ def remove_stopwords(word_list):
     return filtered_words
 
 filtered_list_of_lists = [remove_stopwords(word_list) for word_list in lemmatized_tokens]
-# Print the original and filtered lists
-print("\nList of Lists without Stopwords:")
+# Print the filtered lists
+print("List of Lists without Stopwords:")
 for word_list in filtered_list_of_lists:
     print(word_list)
