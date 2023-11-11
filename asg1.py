@@ -52,8 +52,14 @@ vectorizer2 = TfidfVectorizer()
 vectorizer2.fit(flat_list)
 print(vectorizer2.vocabulary_)
 
+# Print the TF-IDF matrix as an array
 v2 = vectorizer2.transform(flat_list)
 print(v2.toarray())
+
+# Print the dimensions of the resulting TF-IDF matrix
+print("\nDimensions of the TF-IDF matrix:")
+print("Number of documents:", v2.shape[0])
+print("Number of features (unique words):", v2.shape[1])
 
 # POS tag, TFIDF vectorization, frequency >= 4
 #Flatten the list
