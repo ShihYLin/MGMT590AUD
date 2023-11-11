@@ -56,6 +56,20 @@ print(vectorizer2.vocabulary_)
 v2 = vectorizer2.transform(flat_list)
 print(v2.toarray())
 
+# Convert the TF-IDF matrix to a dense array
+tfidf_array = v2.toarray()
+
+# Get the feature names (words)
+feature_names = vectorizer2.get_feature_names_out()
+
+# Create a DataFrame with TF-IDF vectors
+tfidf_df = pd.DataFrame(tfidf_array, columns=feature_names)
+
+# Save the DataFrame to a CSV file
+tfidf_df.to_csv('/Users/ziyun/Documents/MGMT590AUD/tfidf_vectors.csv', index=False)
+
+print("TF-IDF vectors saved to tfidf_vectors.csv")
+
 # Print the dimensions of the resulting TF-IDF matrix
 print("\nDimensions of the TF-IDF matrix:")
 print("Number of documents:", v2.shape[0])
