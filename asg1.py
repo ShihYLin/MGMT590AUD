@@ -35,3 +35,15 @@ filtered_list_of_lists = [remove_stopwords(word_list) for word_list in lemmatize
 print("List of Lists without Stopwords:")
 for word_list in filtered_list_of_lists:
     print(word_list)
+
+# Drop frequency < 3 words
+from sklearn.feature_extraction.text import CountVectorizer
+
+#Flatten the list
+flat_list = [word for sublist in filtered_list_of_lists for word in sublist]
+
+vectorizer1 = CountVectorizer(min_df=3)
+vectorizer1.fit(flat_list)
+print(vectorizer1.vocabulary_)
+v1 = vectorizer1.transform(flat_list)
+print(v1.toarray())
