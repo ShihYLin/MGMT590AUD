@@ -74,3 +74,9 @@ documents = [POS_string]
 vectorizer4 = TfidfVectorizer()
 vectorizer4.fit(documents)
 print(vectorizer4.vocabulary_)
+
+#remove smaller than 4
+vectorizer5 = CountVectorizer(min_df=4)
+
+vectorizer5.fit(documents)
+print(vectorizer5.vocabulary_)
