@@ -54,3 +54,23 @@ print(vectorizer2.vocabulary_)
 
 v2 = vectorizer2.transform(flat_list)
 print(v2.toarray())
+
+# POS tag, TFIDF vectorization, frequency >= 4
+#Flatten the list
+flat_list = [word for sublist in df['tokenized'] for word in sublist]
+
+POS_token = nltk.pos_tag(flat_list)
+print(POS_token)
+
+# Concatenate word and POS tag in a list
+POS_list = [word + pos_tag for word, pos_tag in POS_token]
+
+# Join the words and POS tags into a single string
+POS_string = " ".join(POS_list)
+
+# Create a list with a single element (your POS_string)
+documents = [POS_string]
+
+vectorizer4 = TfidfVectorizer()
+vectorizer4.fit(documents)
+print(vectorizer4.vocabulary_)
