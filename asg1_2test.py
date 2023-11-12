@@ -15,6 +15,9 @@ df['tokenized'] = df.iloc[:, 1].apply(lambda x: nltk.word_tokenize(x))
 # Choose the first 10 tokenized rows
 tokenized_samples = df['tokenized'][:10]
 
+# A set for all possible words
+words = [word for sublist in tokenized_samples for word in sublist]
+
 # Initialize LabelEncoder
 label_encoder = LabelEncoder()
 
@@ -46,11 +49,21 @@ indices_array = np.array(indices).reshape(-1, 1)
 # No need for astype(str) in this case
 indices_list2_flatten = indices_array.flatten().tolist()
 
+# Use OneHotEncoder
+onehot_encoder = OneHotEncoder(sparse_output=False)
+onehot_encoder = onehot_encoder.fit(indices_array)
+
 # encoding
 onehot_encoded1 = [onehot_encoder.transform([[i] for i in doc_i]).tolist() for doc_i in encoded_matrix]
 onehot_encoded2 = [onehot_encoder.transform(doc_i.reshape(-1, 1)).tolist() for doc_i in
 encoded_matrix]
-print(onehot_encoded2)
-# Use OneHotEncoder
+
+# from token to onehot
+# vocabulary
+words_list = [[i] for i in words]
 onehot_encoder = OneHotEncoder(sparse_output=False)
-onehot_encoder = onehot_encoder.fit(indices_array)
+onehot_encoder = onehot_encoder.fit(words_list)
+
+# encoding
+onehot_encoded3 = [onehot_encoder.transform([[word] for word in doc]) for doc in tokenized_samples]
+print(onehot_encoded3)
