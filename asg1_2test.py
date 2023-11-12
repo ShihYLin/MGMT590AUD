@@ -38,12 +38,14 @@ print("Output Dimension:", encoded_matrix.shape)
 
 # One-hot encoding
 # vocabulary
-indices_list = [[j] for i in encoded_matrix for j in i]
-
 indices = [j for i in encoded_matrix for j in i]
-indices_list2 = array(indices).reshape(-1, 1)
 
-indices_list2_flatten = indices_list2.flatten().tolist()
+# Convert indices to a numpy array of strings
+indices_array = np.array(indices).reshape(-1, 1)
 
+# No need for astype(str) in this case
+indices_list2_flatten = indices_array.flatten().tolist()
+
+# Use OneHotEncoder
 onehot_encoder = OneHotEncoder(sparse_output=False)
-onehot_encoder = onehot_encoder.fit(indices_list2)
+onehot_encoder = onehot_encoder.fit(indices_array)
