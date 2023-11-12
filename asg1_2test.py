@@ -3,6 +3,8 @@ import nltk
 import numpy as np
 from sklearn.preprocessing import LabelEncoder
 from tensorflow.keras.preprocessing.sequence import pad_sequences  # Import padding function
+from sklearn.preprocessing import OneHotEncoder
+from array import array
 
 # Import csv file
 df = pd.read_csv("/Users/ziyun/Documents/MGMT590AUD/Assignment 1.csv")
@@ -33,3 +35,15 @@ np.savetxt('/Users/ziyun/Documents/MGMT590AUD/encoded_matrix.txt', encoded_matri
 
 # Print the output dimension
 print("Output Dimension:", encoded_matrix.shape)
+
+# One-hot encoding
+# vocabulary
+indices_list = [[j] for i in encoded_matrix for j in i]
+
+indices = [j for i in encoded_matrix for j in i]
+indices_list2 = array(indices).reshape(-1, 1)
+
+indices_list2_flatten = indices_list2.flatten().tolist()
+
+onehot_encoder = OneHotEncoder(sparse_output=False)
+onehot_encoder = onehot_encoder.fit(indices_list2)
