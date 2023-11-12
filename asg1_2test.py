@@ -67,3 +67,10 @@ onehot_encoder = onehot_encoder.fit(words_list)
 # encoding
 onehot_encoded3 = [onehot_encoder.transform([[word] for word in doc]) for doc in tokenized_samples]
 print(onehot_encoded3)
+
+# Print the dimensions of each array in the list
+for i, encoded_array in enumerate(onehot_encoded3):
+    print(f"Array {i + 1} Dimension:", encoded_array.shape)
+
+# Specify the text file path
+txt_file_path = '/Users/ziyun/Documents/MGMT590AUD/onehot_encoded_output.txt'
