@@ -74,3 +74,11 @@ for i, encoded_array in enumerate(onehot_encoded3):
 
 # Specify the text file path
 txt_file_path = '/Users/ziyun/Documents/MGMT590AUD/onehot_encoded_output.txt'
+
+# Vertically stack the arrays
+stacked_array = np.vstack(onehot_encoded3)
+
+# Save the vertically stacked array to a txt file
+np.savetxt(txt_file_path, stacked_array, fmt='%d')
+
+print(f"The stacked onehot encoded arrays have been saved to {txt_file_path}")
