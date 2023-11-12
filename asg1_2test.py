@@ -46,6 +46,11 @@ indices_array = np.array(indices).reshape(-1, 1)
 # No need for astype(str) in this case
 indices_list2_flatten = indices_array.flatten().tolist()
 
+# encoding
+onehot_encoded1 = [onehot_encoder.transform([[i] for i in doc_i]).tolist() for doc_i in encoded_matrix]
+onehot_encoded2 = [onehot_encoder.transform(doc_i.reshape(-1, 1)).tolist() for doc_i in
+encoded_matrix]
+print(onehot_encoded2)
 # Use OneHotEncoder
 onehot_encoder = OneHotEncoder(sparse_output=False)
 onehot_encoder = onehot_encoder.fit(indices_array)
