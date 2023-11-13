@@ -46,21 +46,30 @@ vectorizer1 = CountVectorizer(min_df=3)
 vectorizer1.fit(flat_list)
 print(vectorizer1.vocabulary_)
 
-#TF_IDF
+# TF_IDF
 from sklearn.feature_extraction.text import TfidfVectorizer
-vectorizer2 = TfidfVectorizer()
-vectorizer2.fit(flat_list)
-print(vectorizer2.vocabulary_)
+review_list_tokens = []
+stop_words = set(stopwords.words('english'))
 
-# Print the TF-IDF matrix as an array
-v2 = vectorizer2.transform(flat_list)
-print(v2.toarray())
+for row in df['tokenized']:
+    lemmartize = [lemmatizer.lemmatize(i.lower()) for i in row if i.isalpha() and i.lower() not in stop_words]
+    review_list_tokens.append(" ".join(lemmartize))
+print(review_list_tokens)
+
+# Remove word frequency < 3, TF-IDF
+vectorizer3 = TfidfVectorizer(ngram_range=(1, 2), min_df=3)
+vectorizer3.fit(review_list_tokens)
+v3 = vectorizer3.transform(review_list_tokens)
+
+rows_v3, columns_v3 = v3.shape
+print(f"Row #: {rows_v3}")
+print(f"Column #: {columns_v3}")
 
 # Convert the TF-IDF matrix to a dense array
-tfidf_array = v2.toarray()
+tfidf_array = v3.toarray()
 
 # Get the feature names (words)
-feature_names = vectorizer2.get_feature_names_out()
+feature_names = vectorizer3.get_feature_names_out()
 
 # Create a DataFrame with TF-IDF vectors
 tfidf_df = pd.DataFrame(tfidf_array, columns=feature_names)
@@ -68,12 +77,6 @@ tfidf_df = pd.DataFrame(tfidf_array, columns=feature_names)
 # Save the DataFrame to a CSV file
 tfidf_df.to_csv('/Users/ziyun/Documents/MGMT590AUD/tfidf_vectors.csv', index=False)
 
-print("TF-IDF vectors saved to tfidf_vectors.csv")
-
-# Print the dimensions of the resulting TF-IDF matrix
-print("\nDimensions of the TF-IDF matrix:")
-print("Number of documents:", v2.shape[0])
-print("Number of features (unique words):", v2.shape[1])
 
 # POS tag, TFIDF vectorization, frequency >= 4
 #Flatten the list
