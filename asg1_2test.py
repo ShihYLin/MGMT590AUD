@@ -5,6 +5,7 @@ from sklearn.preprocessing import LabelEncoder
 from tensorflow.keras.preprocessing.sequence import pad_sequences  # Import padding function
 from sklearn.preprocessing import OneHotEncoder
 from array import array
+from gensim.models import KeyedVectors
 
 # Import csv file
 df = pd.read_csv("/Users/ziyun/Documents/MGMT590AUD/Assignment 1.csv")
