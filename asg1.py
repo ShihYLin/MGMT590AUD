@@ -4,7 +4,7 @@ import sklearn
 import nltk
 
 #import csv file
-df = pd.read_csv("/Users/ziyun/Documents/MGMT590AUD/Assignment 1.csv")
+df = pd.read_csv("/Users/ziyun/Documents/MGMT590AUD/Assignment 1.csv", header=None)
 
 #tokenize and lowercase
 df['tokenized'] = df.iloc[:,1].apply(lambda x: nltk.word_tokenize(x))
