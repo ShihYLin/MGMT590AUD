@@ -82,3 +82,39 @@ stacked_array = np.vstack(onehot_encoded3)
 np.savetxt(txt_file_path, stacked_array, fmt='%d')
 
 print(f"The stacked onehot encoded arrays have been saved to {txt_file_path}")
+
+# 3 GloVe
+# Pre-trained glove
+glove_model_path = '/Users/ziyun/Documents/MGMT590AUD/glove.6B/glove.6B.50d.txt'
+
+# Convert GloVe model to Word2Vec format
+word2vec_output_file = 'glove.6B.50d.txt.word2vec'
+# glove2word2vec(glove_model_path, word2vec_output_file)
+
+filename = 'glove.6B.50d.txt.word2vec'
+glove_model = KeyedVectors.load_word2vec_format(filename, binary=False)
+
+# Define the dimensions of the embeddings
+embedding_dim = 50
+max_token = max(len(doc) for doc in tokenized_samples)
+
+# Initialize an array to store the embeddings
+embedding_matrix = np.zeros((len(tokenized_samples), max_token, embedding_dim))
+
+# Iterate over each tokenized sample and embed each word
+for i, sample in enumerate(tokenized_samples):
+    for j, word in enumerate(sample):
+        try:
+            word_embedding = glove_model[word]
+            embedding_matrix[i, j, :] = word_embedding
+        except KeyError:
+            pass
+
+# Save the embedding matrix as a 3D array
+np.save('embedding_matrix.npy', embedding_matrix)
+
+# Save the 3D array to a text file
+np.savetxt('/Users/ziyun/Documents/MGMT590AUD/embedding_matrix.txt', embedding_matrix.reshape(embedding_matrix.shape[0], -1), delimiter=' ')
+
+# Print the shape of the resulting 3D array
+print("Shape of the 3D array:", embedding_matrix.shape)
