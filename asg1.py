@@ -79,27 +79,28 @@ tfidf_df.to_csv('/Users/ziyun/Documents/MGMT590AUD/tfidf_vectors.csv', index=Fal
 
 
 # POS tag, TFIDF vectorization, frequency >= 4
-#Flatten the list
-flat_list = [word for sublist in df['tokenized'] for word in sublist]
+# Function to perform POS tagging
+def pos_tagging(words):
+    tagged_tokens = nltk.pos_tag(words)
+    return ' '.join([tag[0] + tag[1] for tag in tagged_tokens])
 
-POS_token = nltk.pos_tag(flat_list)
-print(POS_token)
+# Apply POS tagging to the 'tokenized' column
+df['pos_tagged'] = df['tokenized'].apply(pos_tagging)
 
-# Concatenate word and POS tag in a list
-POS_list = [word + pos_tag for word, pos_tag in POS_token]
+# TF-IDF Vectorization with a minimal document frequency of 4
+tfidf_vectorizer = TfidfVectorizer(min_df=4)
 
-# Join the words and POS tags into a single string
-POS_string = " ".join(POS_list)
+# Fit and transform the 'pos_tagged' column
+tfidf_matrix = tfidf_vectorizer.fit_transform(df['pos_tagged'])
 
-# Create a list with a single element (your POS_string)
-documents = [POS_string]
+# Convert the TF-IDF matrix to a DataFrame
+tfidf_df = pd.DataFrame(tfidf_matrix.toarray(), columns=tfidf_vectorizer.get_feature_names_out())
 
-vectorizer4 = TfidfVectorizer()
-vectorizer4.fit(documents)
-print(vectorizer4.vocabulary_)
+# Display the result
+print(tfidf_df)
 
-#remove smaller than 4
-vectorizer5 = CountVectorizer(min_df=4)
+# Save the TF-IDF matrix as a CSV file
+tfidf_df.to_csv('/Users/ziyun/Documents/MGMT590AUD/POS_tfidf_matrix.csv', index=False)
 
-vectorizer5.fit(documents)
-print(vectorizer5.vocabulary_)
+# Display the dimensions of the TF-IDF matrix
+print("Shape of the TF-IDF matrix:", tfidf_df.shape)
