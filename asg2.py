@@ -1,6 +1,7 @@
 from PIL import Image
 from pylab import *
 import os
+import csv
 
 # Path to the folder containing images
 folder_path = '/Users/ziyun/Documents/MGMT590AUD/image'
@@ -26,13 +27,27 @@ for filename in os.listdir(folder_path):
         print(f"Resized and saved {filename} successfully.")
     except Exception as e:
         print(f"Error processing {filename}: {e}")
-        
+
+# step 3: Create a CSV file to save flattened arrays
+csv_filename = '/Users/ziyun/Documents/MGMT590AUD/flattened_arrays.csv'
+csv_file = open(csv_filename, 'w', newline='')
+
+csv_writer = csv.writer(csv_file)
+
 # step 2 convert to grayscale arrays
 for filename in os.listdir(output_folder):
 
     # Open the image file
-    img_path = os.path.join(folder_path, filename)
+    img_path = os.path.join(output_folder, filename)
     img = Image.open(img_path)
 
     # Turn into array and grayscale
     gray_img = array(img.convert('L'))
+
+    # step 3 flatten
+    v_img = gray_img.flatten()
+
+    # write the flatten array as a row in the csv file
+    csv_writer.writerow(v_img)
+
+csv_file.close()
