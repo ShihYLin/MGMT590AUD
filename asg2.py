@@ -1,4 +1,5 @@
 from PIL import Image
+from pylab import *
 import os
 
 # Path to the folder containing images
@@ -25,3 +26,13 @@ for filename in os.listdir(folder_path):
         print(f"Resized and saved {filename} successfully.")
     except Exception as e:
         print(f"Error processing {filename}: {e}")
+        
+# step 2 convert to grayscale arrays
+for filename in os.listdir(output_folder):
+
+    # Open the image file
+    img_path = os.path.join(folder_path, filename)
+    img = Image.open(img_path)
+
+    # Turn into array and grayscale
+    gray_img = array(img.convert('L'))
