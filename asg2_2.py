@@ -49,3 +49,32 @@ term_document_matrix = pd.DataFrame(X.toarray(), columns=vectorizer.get_feature_
 
 # Display the term-document matrix
 print(term_document_matrix)
+
+# Display the topic distribution for the first 10 rows
+print("Topic distribution for the first 10 restaurant reviews:")
+for i, row in enumerate(topic_results[:10]):
+    print(f"Row {i+1}: {row}")
+
+# Function to get the top-2 topics for a given row
+def get_top_topics(row, num_top_topics):
+    top_topics = row.argsort()[-num_top_topics:][::-1]
+    return top_topics
+
+# Get the top topics for the first 10 rows
+num_top_topics = 1
+print("\nTop topics for the first 10 restaurant reviews:")
+for i, row in enumerate(topic_results[:10]):
+    top_topics = get_top_topics(row, num_top_topics)
+    print(f"ID {i+1}: Top topic - {top_topics+1}")
+
+# Display the topic distribution for the first 10 movie reviews
+print("Topic distribution for the first 10 movie reviews:")
+for i, row in enumerate(topic_results[500:510]):
+    print(f"Row {i+1}: {row}")
+
+# Get the top topics for id 501 to 510
+num_top_topics = 1
+print("\nTop topics for movie reviews 501 to 510:")
+for i, row in enumerate(topic_results[500:510], start=500+1):
+    top_topics = get_top_topics(row, num_top_topics)
+    print(f"ID {i}: Top topics - {top_topics+1}")
