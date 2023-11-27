@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-import sklearn
 import nltk
 from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import CountVectorizer
@@ -38,10 +37,15 @@ for word_list in filtered_list_of_lists:
 
 # Drop frequency < 5
 #Flatten the list
-flat_list = [word for sublist in filtered_list_of_lists for word in sublist]
+flat_list = [' '.join(sublist) for sublist in filtered_list_of_lists]
 
 # Use CountVectorizer for unigrams and bigrams with minimum frequency of 5
 vectorizer = CountVectorizer(ngram_range=(1, 2), min_df=5)
 X = vectorizer.fit_transform(flat_list)
 print(vectorizer.vocabulary_)
 
+# Convert the sparse matrix to a DataFrame representing the term-document matrix
+term_document_matrix = pd.DataFrame(X.toarray(), columns=vectorizer.get_feature_names_out())
+
+# Display the term-document matrix
+print(term_document_matrix)
