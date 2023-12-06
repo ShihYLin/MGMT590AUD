@@ -4,6 +4,10 @@ from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 import string
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import MultinomialNB
+from sklearn import metrics
+
 
 # Load the Excel file into a pandas DataFrame
 file_path = '/Users/ziyun/Documents/MGMT590AUD/Assignment 3.xlsx'
@@ -62,3 +66,23 @@ tfidf_df = pd.DataFrame(tfidf_matrix.toarray(), columns=feature_names)
 # Display the TF-IDF matrix DataFrame
 print("TF-IDF Matrix Shape:", tfidf_df.shape)
 print(tfidf_df.head())
+
+# Split the data into features (TF-IDF matrix) and target variable
+X = tfidf_matrix
+y = data['label']  # Replace 'label_column' with the column containing the labels
+
+# Split the data into training and test sets (using the previously defined indices)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Initialize the Naïve Bayes classifier (MultinomialNB)
+nb_classifier = MultinomialNB()
+
+# Train the classifier using the training data
+nb_classifier.fit(X_train, y_train)
+
+# Make predictions on the test data
+y_pred = nb_classifier.predict(X_test)
+
+# Calculate the accuracy of the model
+accuracy = metrics.accuracy_score(y_test, y_pred)
+print("Accuracy:", accuracy)
