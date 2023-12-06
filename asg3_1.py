@@ -8,6 +8,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
 from sklearn import metrics
 from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
 
 # Load the Excel file into a pandas DataFrame
 file_path = '/Users/ziyun/Documents/MGMT590AUD/Assignment 3.xlsx'
@@ -99,3 +100,16 @@ y_pred = logit_model.predict(X_test)
 # Calculate the accuracy of the model
 accuracy = metrics.accuracy_score(y_test, y_pred)
 print("Logit Accuracy:", accuracy)
+
+# Initialize the Random Forest classifier with 50 trees
+random_forest = RandomForestClassifier(n_estimators=50, random_state=42)  # Adjust parameters as needed
+
+# Train the classifier using the training data
+random_forest.fit(X_train, y_train)
+
+# Make predictions on the test data
+y_pred = random_forest.predict(X_test)
+
+# Calculate the accuracy of the model
+accuracy = metrics.accuracy_score(y_test, y_pred)
+print("Random Forest Accuracy:", accuracy)
